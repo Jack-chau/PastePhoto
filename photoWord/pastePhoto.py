@@ -6,12 +6,17 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.enum.table import WD_ALIGN_VERTICAL
 from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.enum.section import  WD_ORIENT
-from docx.shared import Cm
+from docx.shared import Cm, Inches, Pt
 
 doc = docx.Document ( )
-set_photo_path = "./Photo/"
-photo_width = Cm ( 10 )
-photo_height = Cm ( 10 )
+
+set_image_path = "./Photo/"
+
+font_style = "Times New Roman"
+font_size  = Pt ( 18 )
+
+image_width = Cm ( 10 )
+image_height = Inches ( 3.8 )
 
 # Set margin
 margin = Cm ( 2 )
@@ -22,9 +27,9 @@ section.bottom_margin = margin
 section.right_margin = margin
 
 # Connection path
-get_folders = os.listdir ( set_photo_path )
+get_folders = os.listdir ( set_image_path )
 get_folders.sort ( )
-each_folder_path = [ set_photo_path + folder for folder in get_folders ]
+each_folder_path = [ set_image_path + folder for folder in get_folders ]
 
 images_path = [ ]
 
@@ -43,11 +48,11 @@ def setOrientation ( ) :
     section.page_width = new_width
     section.page_height = new_height
 
-# Paste photo
+# Paste image
 def main ( ) :
     for folder in path_arrays :
-        if len( folder ) % 2 == 0 :
-            image_num = len( folder )
+        if len ( folder ) % 2 == 0 :
+            image_num = len ( folder )
             total_rows = int ( image_num / 2 )
             i = 0
             while i <= total_rows :
@@ -55,25 +60,25 @@ def main ( ) :
                 table = doc.add_table ( rows = 0, cols = 2 )
                 table.style = "Table Grid"
                 table.alignment = WD_TABLE_ALIGNMENT.CENTER
-                row_cells = table.add_row ( ).cells
+                row_cells = table.add_row( ).cells
                 row_cells[ 0 ].vertical_alignment = WD_ALIGN_VERTICAL.CENTER
                 row_cells[ 1 ].vertical_alignment = WD_ALIGN_VERTICAL.CENTER
                 left_pic = row_cells[ 0 ].paragraphs[ 0 ]
                 left_pic.alignment = WD_ALIGN_PARAGRAPH.CENTER
                 run_left = left_pic.add_run ( )
-                run_left.add_picture ( folder[ i ], width=photo_width, height = photo_height )
+                run_left.add_picture ( folder[ i ], width = image_width, height = image_height )
                 i += 1
 
                 right_pic = row_cells[ 1 ].paragraphs[ 0 ]  
                 right_pic.alignment = WD_ALIGN_PARAGRAPH.CENTER
-                run_right = right_pic.add_run( )
-                run_right.add_picture ( folder[ i ], width=photo_width, height = photo_height )
+                run_right = right_pic.add_run ( )
+                run_right.add_picture ( folder[ i ], width = image_width, height = image_height )
 
-                text_row = table.add_row ( ).cells
+                text_row = table.add_row( ).cells
                 left_cell = text_row[ 0 ].paragraphs[ 0 ]
                 font = left_cell.style.font
-                font.name = "Times New Roman"
-                font.size = Cm ( 1 )
+                font.name = font_style
+                font.size = font_size
                 doc.add_page_break ( )
                 i += 1
 
@@ -83,29 +88,30 @@ def main ( ) :
             i = 0
             while i < total_rows :
                 doc.add_paragraph ( )
-                table = doc.add_table ( rows = 0, cols = 2)
+                table = doc.add_table ( rows = 0, cols = 2 )
                 table.style = "Table Grid"
                 table.alignment = WD_TABLE_ALIGNMENT.CENTER
-                row_cells = table.add_row ( ).cells
+                row_cells = table.add_row( ).cells
                 row_cells[ 0 ].vertical_alignment = WD_ALIGN_VERTICAL.CENTER
                 row_cells[ 1 ].vertical_alignment = WD_ALIGN_VERTICAL.CENTER
                 left_pic = row_cells[ 0 ].paragraphs[ 0 ]
                 left_pic.alignment = WD_ALIGN_PARAGRAPH.CENTER
                 run_left = left_pic.add_run ( )
-                run_left.add_picture ( folder[ i ], width = photo_width, height = photo_height )
+                run_left.add_picture ( folder[ i ], width = image_width, height = image_height )
                 i += 1
                 right_pic = row_cells[ 1 ].paragraphs[ 0 ]
                 right_pic.alignment = WD_ALIGN_PARAGRAPH.CENTER
-                run_right = right_pic.add_run( )
-                run_right.add_picture ( folder[ i ], width = photo_width, height = photo_height )
+                run_right = right_pic.add_run ( )
+                run_right.add_picture ( folder[ i ], width = image_width, height = image_height )
 
-                text_row = table.add_row ( ).cells
+                text_row = table.add_row( ).cells
                 left_cell = text_row[ 0 ].paragraphs[ 0 ]
                 font = left_cell.style.font
-                font.name = "Times New Roman"
-                font.size = Cm ( 1 )
+                font.name = font_style
+                font.size = font_size
                 doc.add_page_break ( )
                 i += 1
+                
             doc.add_paragraph ( )
             table = doc.add_table ( rows = 0, cols = 2)
             table.alignment = WD_TABLE_ALIGNMENT.CENTER
@@ -116,12 +122,12 @@ def main ( ) :
             left_pic = row_cells[ 0 ].paragraphs[ 0 ]
             left_pic.alignment = WD_ALIGN_PARAGRAPH.CENTER
             run_left = left_pic.add_run ( )
-            run_left.add_picture ( folder[ i ], width = photo_width, height = photo_height )
-            text_row = table.add_row ( ).cells
+            run_left.add_picture ( folder[ i ], width = image_width, height = image_height )
+            text_row = table.add_row( ).cells
             left_cell = text_row[ 0 ].paragraphs[ 0 ]
             font = left_cell.style.font
-            font.name = "Times New Roman"
-            font.size = Cm ( 1 )
+            font.name = font_style
+            font.size = font_size
             doc.add_page_break ( )
 
 if __name__ == "__main__" :   
